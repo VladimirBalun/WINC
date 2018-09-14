@@ -7,6 +7,7 @@
 </p>
 
 ## General information
+
 WINC - it's a set of simple and convenient cross-platform libraries for C language. A 
 large number of different libraries will be added soon, but now the set contains the following 
 libraries for working with:
@@ -37,7 +38,6 @@ One of the collection from the *Utils* library:
     
 ## How to build WINC
 
-
 Clone a copy of the main WINC git repository by running:
 
     git clone https://github.com/VladimirBalun/WINC.git
@@ -57,4 +57,3 @@ You also can  build manually by running the following commands:
 ___
 Documentation will be supplemented over time, but if you 
 have any questions, please contact: vladimirbalun@yandex.ru
-    
