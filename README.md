@@ -1,4 +1,6 @@
 ![WINC](./WINC.png)
+
+
 WINC - it's a set of simple and convenient cross-platform libraries for C language. A 
 large number of different libraries will be added soon, but now the set contains the following 
 libraries for working with:
