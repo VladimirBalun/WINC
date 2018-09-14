@@ -5,7 +5,6 @@
       width="250"
      />
 </p>
-
 ## General information
 
 WINC - it's a set of simple and convenient cross-platform libraries for C language. A 
@@ -21,20 +20,19 @@ libraries for working with:
    
 One of the collection from the *Utils* library:    
     
-
-    ~~~C
-    list_t list = init_list();
-    push_back_list(list, "world");
-    push_back_list(list, "!!!");
-    push_front_list(list, "Hello ");
+~~~C
+list_t list = init_list();
+push_back_list(list, "world");
+push_back_list(list, "!!!");
+push_front_list(list, "Hello ");
     
-    FOR_EACH_LIST(iterator, list)
-    {
-        printf("%s", (char*) list_get(iterator));
-    }
+FOR_EACH_LIST(iterator, list)
+{
+    printf("%s", (char*) list_get(iterator));
+}
     
-    destroy_list(list);
-    ~~~
+destroy_list(list);
+~~~
     
 ## How to build WINC
 
