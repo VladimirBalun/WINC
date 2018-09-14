@@ -22,7 +22,7 @@ libraries for working with:
 One of the collection from the *Utils* library:    
     
 
-    ```c
+    ~~~C
     list_t list = init_list();
     push_back_list(list, "world");
     push_back_list(list, "!!!");
@@ -34,7 +34,7 @@ One of the collection from the *Utils* library:
     }
     
     destroy_list(list);
-    ```
+    ~~~
     
 ## How to build WINC
 
