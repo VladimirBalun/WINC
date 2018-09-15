@@ -42,20 +42,20 @@ extern "C" {
     #define ASSERT_MSG(text) \
         ( fprintf(stderr, "[ASSERT] [%s] [%s:%d] - %s\n", __TIMESTAMP__, __FILE__, __LINE__, (char*)(text)) )
 
-    #define ASSERT(expression)               \
-        if (!(expression))                   \
-        {                                    \
+    #define ASSERT(expression) \
+        if (!(expression)) \
+        { \
             ASSERT_MSG("Assertion failed."); \
-            exit(ASSERT_FAILED);             \
+            exit(ASSERT_FAILED); \
         }
 
 	#ifdef __unix__ 
 
-		#define PRINT_LAST_SYSTEM_ERROR()																								    \
-			LPSTR message_buffer = NULL;                                                                                                    \
-			size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,       \
+		#define PRINT_LAST_SYSTEM_ERROR() \
+			LPSTR message_buffer = NULL; \
+			size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, \
 									     NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&message_buffer, 0, NULL);	\
-			SYSTEM_MSG(message_buffer);																										\
+			SYSTEM_MSG(message_buffer);	\
 			LocalFree(message_buffer); 
 
 	#elif defined (_WIN32) || (WIN32)

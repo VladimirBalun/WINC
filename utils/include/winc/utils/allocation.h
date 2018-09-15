@@ -14,10 +14,35 @@
  * limitations under the License.
  */
 
-#ifndef WINC_UTILS_COLLECTION_H
-#define WINC_UTILS_COLLECTION_H
+#ifndef WINC_UTILS_ALLOCATION_H
+#define WINC_UTILS_ALLOCATION_H
 
-#include "collection/list.h"
-#include "collection/stack.h"
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-#endif // WINC_UTILS_COLLECTION_H
+#include <stdlib.h>
+
+#include "debug.h"
+#include "typedef.h"
+
+#define MALLOC(size) \
+({ \
+    void* ptr = malloc(size); \
+    if (!ptr) \
+    { \
+        ERROR_MSG("SICO: Memory wasn't allocated."); \
+        exit(MEMORY_NOT_ALLOCATED); \
+    } \
+    ptr; \
+})
+
+#define FREE(pointer) \
+    free (pointer); \
+    pointer = NULL; \
+
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+
+#endif // WINC_UTILS_ALLOCATION_H

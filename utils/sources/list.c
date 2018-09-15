@@ -20,35 +20,41 @@ typedef struct node_t* node_t;
 
 struct node_t
 {
-    void*  data;
     node_t next;
     node_t prev;
+    void*  data;
 };
 
 struct list_t
 {
-    size_t size;
     node_t head;
     node_t tail;
+    size_t size;
 };
 
 list_t init_list()
 {
-    list_t list = malloc(sizeof(list_t));
+    list_t list = MALLOC(sizeof(list_t));
     _make_empty_list(list);
     return list;
 }
 
 void clear_list(list_t list)
 {
-    if (!is_empty_list(list))
-        pop_back_list(list);
+    node_t iterator = list->tail;
+    while (iterator != NULL)
+    {
+        node_t del_node = iterator;
+        iterator = iterator->prev;
+        FREE(del_node);
+    }
+    _make_empty_list(list);
 }
 
 void destroy_list(list_t list)
 {
     clear_list(list);
-    free(list);
+    FREE(list);
 }
 
 void move_list(list_t from_list, list_t to_list)
@@ -97,7 +103,7 @@ void push_back_list(list_t list, void* data)
     }
     else
     {
-        node_t new_node = _allocate_memory_for_node();
+        node_t new_node = MALLOC(sizeof(node_t));
         new_node->data = data;
         new_node->prev = list->tail;
         new_node->next = NULL;
@@ -117,7 +123,7 @@ void pop_back_list(list_t list)
     list->tail = list->tail->prev;
     list->tail->next = NULL;
     list->size--;
-    free(del_node);
+    FREE(del_node);
 }
 
 void push_front_list(list_t list, void* data)
@@ -128,7 +134,7 @@ void push_front_list(list_t list, void* data)
     }
     else
     {
-        node_t new_node = _allocate_memory_for_node();
+        node_t new_node = MALLOC(sizeof(node_t));
         new_node->data = data;
         new_node->next = list->head;
         new_node->prev = NULL;
@@ -148,7 +154,7 @@ void pop_front_list(list_t list)
     list->head = list->head->next;
     list->head->prev = NULL;
     list->size--;
-    free(del_node);
+    FREE(del_node);
 }
 
 void add_sublist_to_list_to_end(list_t list, list_t sublist)
@@ -200,14 +206,7 @@ void list_insert_after(list_t list, list_iterator_t it, void* data)
     {
         node_t prev_node = it;
         node_t next_node = it->next;
-
-        node_t new_node = _allocate_memory_for_node();
-        new_node->data = data;
-        new_node->next = next_node;
-        new_node->prev = prev_node;
-
-        prev_node->next = new_node;
-        next_node->prev = new_node;
+        _insert_between_nodes(prev_node, next_node, data);
     }
     else
     {
@@ -226,14 +225,7 @@ void list_insert_before(list_t list, list_iterator_t it, void* data)
     {
         node_t prev_node = it->prev;
         node_t next_node = it;
-
-        node_t new_node = _allocate_memory_for_node();
-        new_node->data = data;
-        new_node->next = next_node;
-        new_node->prev = prev_node;
-
-        prev_node->next = new_node;
-        next_node->prev = new_node;
+        _insert_between_nodes(prev_node, next_node, data);
     }
     else
     {
@@ -254,7 +246,7 @@ void list_erase(list_t list, list_iterator_t it)
         next_node->prev = prev_node;
 
     list->size++;
-    free(it);
+    FREE(it);
 }
 
 list_iterator_t list_begin(list_t list)
@@ -321,6 +313,16 @@ void* list_at(list_t list, int index)
     return NULL;
 }
 
+void* list_back(list_t list)
+{
+    return list->tail->data;
+}
+
+void* list_front(list_t list)
+{
+    return list->head->data;
+}
+
 static void _make_empty_list(list_t list)
 {
     list->head = NULL;
@@ -328,20 +330,19 @@ static void _make_empty_list(list_t list)
     list->size = 0;
 }
 
-static node_t _allocate_memory_for_node()
+static void _insert_between_nodes(list_iterator_t lnode, list_iterator_t rnode, void* data)
 {
-    node_t new_node = malloc(sizeof(node_t));
-    if (!new_node)
-    {
-        ERROR_MSG("SICO: Memory for node of the list wasn't allocated.");
-        exit(MEMORY_NOT_ALLOCATED);
-    }
-    return new_node;
+    node_t new_node = MALLOC(sizeof(node_t));
+    new_node->data = data;
+    new_node->next = rnode;
+    new_node->prev = lnode;
+    lnode->next = new_node;
+    rnode->prev = new_node;
 }
 
 static void _insert_first_node(list_t list, void* data)
 {
-    node_t new_node = malloc(sizeof(node_t));
+    node_t new_node = MALLOC(sizeof(node_t));
     new_node->data = data;
     new_node->next = NULL;
     new_node->prev = NULL;

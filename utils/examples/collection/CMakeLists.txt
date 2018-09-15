@@ -16,5 +16,12 @@
 
 cmake_minimum_required (VERSION 3.8)
 
+set (EXAMPLES ListExample StackExample)
+
 add_executable (ListExample list_example.c ../../sources/list.c)
-target_include_directories (ListExample PRIVATE ../../include)
+add_executable (StackExample stack_example.c ../../sources/stack.c)
+
+foreach (_example ${EXAMPLES})
+    target_include_directories (${_example} PRIVATE ../../include)
+    target_include_directories (${_example} PRIVATE ../../../utils/include)
+endforeach ()

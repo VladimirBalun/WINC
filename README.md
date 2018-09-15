@@ -5,6 +5,7 @@
       width="250"
      />
 </p>
+
 ## General information
 
 WINC - it's a set of simple and convenient cross-platform libraries for C language. A 
@@ -30,7 +31,7 @@ FOR_EACH_LIST(iterator, list)
 {
     printf("%s", (char*) list_get(iterator));
 }
-    
+      
 destroy_list(list);
 ~~~
     

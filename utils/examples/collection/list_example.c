@@ -15,7 +15,6 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "winc/utils/collection/list.h"
 

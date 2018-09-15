@@ -25,6 +25,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "winc/utils/allocation.h"
 #include "winc/utils/typedef.h"
 
 bool create_file(const char* file_name);

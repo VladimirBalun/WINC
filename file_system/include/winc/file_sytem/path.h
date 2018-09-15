@@ -21,10 +21,13 @@
 extern "C" {
 #endif // __cplusplus
 
-#include <winc/utils/typedef.h>
+#include <stdlib.h>
 
-bool is_path(const char* name);
-bool is_file(const char* name);
+#include "winc/utils/allocation.h"
+#include "winc/utils/typedef.h"
+
+bool is_directory(const char* path);
+bool is_file(const char* path);
 
 const char* get_user_directory();
 const char* get_current_directory();

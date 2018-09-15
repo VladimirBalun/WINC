@@ -14,27 +14,34 @@
  * limitations under the License.
  */
 
-#ifndef WINC_UTILS_TYPEDEF_H
-#define WINC_UTILS_TYPEDEF_H
+#ifndef WINC_UTILS_COLLECTION_STACK_H
+#define WINC_UTILS_COLLECTION_STACK_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-typedef int bool;
-#define true  1
-#define false 0
+#include "../allocation.h"
+#include "../typedef.h"
 
-// Error exit statuses for WINC
-#define SYSTEM_ERROR         -1
-#define ASSERT_FAILED        -2
-#define MEMORY_NOT_ALLOCATED -3
+typedef struct stack_t* stack_t;
 
-#define FOREVER() for(;;)
-#define LAMBDA(sign_) ({ sign_ _;})
+stack_t init_stack();
+void clear_stack(stack_t stack);
+void destroy_stack(stack_t stack);
+void move_stack(stack_t from_stack, stack_t to_stack);
+
+void push_stack(stack_t stack, void* data);
+void pop_stack(stack_t stack);
+
+void* stack_top(stack_t stack);
+size_t get_size_stack(stack_t stack);
+bool is_empty_stack(stack_t stack);
+
+static void _make_empty_stack(stack_t stack);
 
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
-#endif // WINC_UTILS_TYPEDEF_H
+#endif // WINC_UTILS_COLLECTION_STACK_H

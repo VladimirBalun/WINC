@@ -15,7 +15,6 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "winc/file_sytem/file.h"
 

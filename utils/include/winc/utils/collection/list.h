@@ -22,10 +22,8 @@ extern "C" {
 #endif // __cplusplus
 
 #include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-#include "../debug.h"
+#include "../allocation.h"
 #include "../typedef.h"
 
 typedef struct list_t* list_t;
@@ -66,10 +64,11 @@ list_iterator_t list_prev(list_iterator_t it);
 
 void* list_get(list_iterator_t it);
 void* list_at(list_t list, int index);
+void* list_back(list_t list);
+void* list_front(list_t list);
 
-// Private functions for working with list.
 static void _make_empty_list(list_t list);
-static list_iterator_t _allocate_memory_for_node();
+static void _insert_between_nodes(list_iterator_t lnode, list_iterator_t rnode, void* data);
 static void _insert_first_node(list_t list, void* data);
 
 #ifdef __cplusplus
