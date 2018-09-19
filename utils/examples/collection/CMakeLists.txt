@@ -16,10 +16,11 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-set (EXAMPLES ListExample StackExample)
+set (EXAMPLES ListExample StackExample QueueExample)
 
 add_executable (ListExample list_example.c ../../sources/list.c)
 add_executable (StackExample stack_example.c ../../sources/stack.c)
+add_executable (QueueExample queue_example.c ../../sources/queue.c)
 
 foreach (_example ${EXAMPLES})
     target_include_directories (${_example} PRIVATE ../../include)

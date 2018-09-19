@@ -16,9 +16,13 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-add_executable (MutexExample mutex_example.c ../../sources/mutex.c)
-target_include_directories (MutexExample PRIVATE ../../include)
+set (EXAMPLES MutexExample)
 
-if (UNIX)
-    target_link_libraries (MutexExample -lpthread)
-endif ()
+add_executable (MutexExample mutex_example.c ../../sources/mutex.c)
+
+foreach (_example ${EXAMPLES})
+    target_include_directories (${_example} PRIVATE ../../include)
+    if (UNIX)
+        target_link_libraries (${_example} -lpthread)
+    endif ()
+endforeach ()

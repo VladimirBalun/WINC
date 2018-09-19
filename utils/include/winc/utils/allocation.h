@@ -23,23 +23,41 @@ extern "C" {
 
 #include <stdlib.h>
 
+#include "exit_statuses.h"
 #include "debug.h"
-#include "typedef.h"
 
 #define MALLOC(size) \
 ({ \
     void* ptr = malloc(size); \
     if (!ptr) \
     { \
-        ERROR_MSG("SICO: Memory wasn't allocated."); \
+        ERROR_MSG("WINC: Memory wasn't allocated."); \
         exit(MEMORY_NOT_ALLOCATED); \
     } \
     ptr; \
 })
 
-#define FREE(pointer) \
-    free (pointer); \
-    pointer = NULL; \
+#define REALLOC(ptr, size) \
+({ \
+    ptr = realloc(ptr, size); \
+    if (!ptr) \
+    { \
+        ERROR_MSG("WINC: Memory wasn't reallocated."); \
+        exit(MEMORY_NOT_REALLOCATED); \
+    } \
+    ptr; \
+})
+
+#define MEMCPY(destptr, srcptr, size) \
+    if (!memcpy (destptr, srcptr, size)) \
+    { \
+        ERROR_MSG("WINC: Memory wasn't copied."); \
+        exit(MEMORY_NOT_REALLOCATED); \
+    } \
+
+#define FREE(ptr) \
+    free (ptr); \
+    ptr = NULL; \
 
 #ifdef __cplusplus
 }

@@ -35,19 +35,21 @@ int main()
     }
     else
     {
-        printf("Mutex wasn't locked.\n");
+        fprintf(stderr, "Mutex wasn't locked.\n");
     }
 
     mutex_lock(&mutex);
     if (mutex_try_lock(&mutex) == true)
-    {
-        printf("Mutex was locked.\n");
-    }
+        fprintf(stderr, "Mutex was locked.\n");
     else
-    {
         printf("Mutex wasn't locked.\n");
+    mutex_unlock(&mutex);
+
+    if (!destroy_mutex(&mutex))
+    {
+        fprintf(stderr, "Mutex wasn't destroyed.\n");
+        return EXIT_FAILURE;
     }
 
-    mutex_unlock(&mutex);
     return EXIT_SUCCESS;
 }

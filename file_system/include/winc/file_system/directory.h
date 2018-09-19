@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-#ifndef WINC_FILE_SYSTEM_PATH_H
-#define WINC_FILE_SYSTEM_PATH_H
+#ifndef WINC_FILE_SYSTEM_DIRECTORY_H
+#define WINC_FILE_SYSTEM_DIRECTORY_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
 
-#include <stdlib.h>
-
-#include "winc/utils/allocation.h"
+#include "path.h"
 #include "winc/utils/typedef.h"
 
-bool is_directory(const char* path);
-bool is_file(const char* path);
-
-const char* get_user_directory();
-const char* get_current_directory();
+bool create_dir(const char* dir_name);
+bool remove_dir(const char* dir_name);
+bool is_exist_dir(const char* dir_name);
+bool rename_dir(const char* old_dir_name, const char* new_dir_name);
 
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
-#endif // WINC_FILE_SYSTEM_PATH_H
+#endif // WINC_FILE_SYSTEM_DIRECTORY_H

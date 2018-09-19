@@ -3,13 +3,13 @@
 build_directory="build"
 
 successful_build=0
-cmake_not_intalled=-1
+cmake_not_installed=-1
 make_not_installed=-2
 
 if ! [ -x "$(command -v cmake)" ];
 then
     echo -n "Error! CMake isn't installed..."
-    exit $cmake_not_intalled
+    exit $cmake_not_installed
 fi
 
 if ! [ -x "$(command -v make)" ];

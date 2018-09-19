@@ -21,10 +21,11 @@
 extern "C" {
 #endif // __cplusplus
 
-#if defined(_DEBUG)
+#if defined(_DEBUG) || defined(DEBUG)
 
     #include <stdio.h>
 
+    #include "exit_statuses.h"
 	#include "typedef.h"
 
     #define DEBUG_MSG(text) \
@@ -51,18 +52,23 @@ extern "C" {
 
 	#ifdef __unix__ 
 
-		#define PRINT_LAST_SYSTEM_ERROR() \
-			LPSTR message_buffer = NULL; \
-			size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, \
-									     NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&message_buffer, 0, NULL);	\
-			SYSTEM_MSG(message_buffer);	\
-			LocalFree(message_buffer); 
+        #include <errno.h>
+        #include <string.h>
+
+        #define PRINT_LAST_SYSTEM_ERROR() \
+            SYSTEM_MSG(strerror(errno));
+
 
 	#elif defined (_WIN32) || (WIN32)
 
-		// Soon will be added...
-		#define PRINT_LAST_SYSTEM_ERROR(text) \
-			( (void)0 ) 
+        #include <Windows.h>
+
+        #define PRINT_LAST_SYSTEM_ERROR() \
+            LPSTR message_buffer = NULL; \
+            size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, \
+                                         NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&message_buffer, 0, NULL);	\
+            SYSTEM_MSG(message_buffer);	\
+            LocalFree(message_buffer);
 
 	#endif // __unix__ and _WIN32
 

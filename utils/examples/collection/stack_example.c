@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     char* data2 = "Text2";
     char* data3 = "Text3";
 
-    stack_t stack = init_stack();
+    stack_t* stack = init_stack();
     push_stack(stack, data3);
     push_stack(stack, data2);
     push_stack(stack, data1);

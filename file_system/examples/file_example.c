@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 
-#include "winc/file_sytem/file.h"
+#include "winc/file_system/file.h"
 
 int main()
 {

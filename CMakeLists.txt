@@ -27,14 +27,14 @@ list (APPEND WINC_LIBRARIES "lib${PROJECT_NAME}Utils")
 
 if (WINC_ENABLE_FILE_SYTEM)
     add_subdirectory (file_system)
-    list(APPEND WINC_LIBRARIES "lib${PROJECT_NAME}FileSystem")
+    list (APPEND WINC_LIBRARIES "lib${PROJECT_NAME}FileSystem")
 endif ()
 
 foreach (library ${WINC_LIBRARIES})
-    message(STATUS "Building: ${library}...")
+    message (STATUS "Building: ${library}...")
 endforeach ()
 
 if (ENABLE_EXAMPLES)
-    message(STATUS "Examples were included in the building.")
-    message(STATUS "Building examples...")
+    message (STATUS "Examples were included in the building.")
+    message (STATUS "Building examples...")
 endif ()

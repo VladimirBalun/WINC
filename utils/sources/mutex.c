@@ -20,29 +20,23 @@
 
 	bool create_mutex(mutex_t* mutex)
 	{
-		pthread_mutexattr_t attrs;
-		pthread_mutexattr_init(&attrs);
-		pthread_mutexattr_settype(&attrs, PTHREAD_MUTEX_RECURSIVE);
+		if (pthread_mutex_init(mutex, NULL) == 0)
+            return true;
 
-		if (pthread_mutex_init(mutex, &attrs) != 0)
-		{
-			SYSTEM_MSG("WINC: Mutex wasn't created...");
-			pthread_mutexattr_destroy(&attrs);
-			return false;
-		}
-
-		pthread_mutexattr_destroy(&attrs);
-		return true;
+        PRINT_LAST_SYSTEM_ERROR();
+        return false;
 	}
 
 	void mutex_lock(mutex_t* mutex)
 	{
-		pthread_mutex_lock(mutex);
+        if (pthread_mutex_lock(mutex) != 0)
+            PRINT_LAST_SYSTEM_ERROR();
 	}
 
 	void mutex_unlock(mutex_t* mutex)
 	{
-		pthread_mutex_unlock(mutex);
+	    if (pthread_mutex_unlock(mutex) != 0)
+		    PRINT_LAST_SYSTEM_ERROR();
 	}
 
 	bool mutex_try_lock(mutex_t* mutex)
@@ -52,13 +46,11 @@
 
 	bool destroy_mutex(mutex_t* mutex)
 	{
-		if (pthread_mutex_destroy(mutex) != 0)
-		{
-			SYSTEM_MSG("WINC: Mutex wasn't destroyed...");
-			return false;
-		}
+		if (pthread_mutex_destroy(mutex) == 0)
+            return true;
 
-		return true;
+        PRINT_LAST_SYSTEM_ERROR();
+		return false;
 	}
 
 #elif defined(_WIN32) || defined(WIN32)

@@ -16,9 +16,10 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-set (EXAMPLES FileExample)
+set (EXAMPLES FileExample PathExample)
 
 add_executable (FileExample file_example.c ../sources/file.c)
+add_executable (PathExample path_example.c ../sources/path.c)
 
 foreach (_example ${EXAMPLES})
     target_include_directories (${_example} PRIVATE ../include)

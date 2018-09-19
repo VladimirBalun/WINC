@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "winc/file_sytem/path.h"
+#include "winc/file_system/path.h"
 
 #ifdef __unix__
 
@@ -22,6 +22,9 @@
     #include <sys/stat.h>
     #include <sys/types.h>
     #include <pwd.h>
+
+    #include <stdlib.h>
+    #include <string.h>
 
     bool is_directory(const char* path)
     {
@@ -37,16 +40,20 @@
         return S_ISDIR(buff.st_mode);
     }
 
-    const char* get_user_directory()
+    char* get_user_directory()
     {
         struct passwd* pw = getpwuid(getuid());
         if (pw->pw_dir)
-            return pw->pw_dir;
+        {
+            char* buff = MALLOC(strlen(pw->pw_dir) + 1);
+            strcpy(buff, pw->pw_dir);
+            return buff;
+        }
 
         return NULL;
     }
 
-    const char* get_current_directory()
+    char* get_current_directory()
     {
         static __uint8_t MAX_LENGTH_DIRECTORY = 255;
         char* buff = MALLOC(sizeof(char) * MAX_LENGTH_DIRECTORY);

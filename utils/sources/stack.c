@@ -16,46 +16,46 @@
 
 #include "winc/utils/collection/stack.h"
 
-typedef struct node_t* node_t;
+typedef struct node_t node_t;
 
 struct node_t
 {
-    node_t prev;
-    void*  data;
+    node_t* prev;
+    void*   data;
 };
 
 struct stack_t
 {
-    node_t tail;
-    size_t size;
+    node_t* tail;
+    size_t  size;
 };
 
-stack_t init_stack()
+stack_t* init_stack()
 {
-    stack_t stack = MALLOC(sizeof(stack_t));
+    stack_t* stack = MALLOC(sizeof(stack_t));
     _make_empty_stack(stack);
     return stack;
 }
 
-void clear_stack(stack_t stack)
+void clear_stack(stack_t* stack)
 {
-    node_t iterator = stack->tail;
-    while (!iterator)
+    node_t* iterator = stack->tail;
+    while (iterator)
     {
-        node_t del_node = iterator;
+        node_t* del_node = iterator;
         iterator = iterator->prev;
         FREE(del_node);
     }
-    stack->size = 0;
+    _make_empty_stack(stack);
 }
 
-void destroy_stack(stack_t stack)
+void destroy_stack(stack_t* stack)
 {
     clear_stack(stack);
     FREE(stack);
 }
 
-void move_stack(stack_t from_stack, stack_t to_stack)
+void move_stack(stack_t* from_stack, stack_t* to_stack)
 {
     if (is_empty_stack(from_stack))
         return;
@@ -69,18 +69,18 @@ void move_stack(stack_t from_stack, stack_t to_stack)
     _make_empty_stack(from_stack);
 }
 
-void push_stack(stack_t stack, void* data)
+void push_stack(stack_t* stack, void* data)
 {
     if (is_empty_stack(stack))
     {
-        node_t new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = MALLOC(sizeof(node_t));
         new_node->data = data;
         new_node->prev = NULL;
         stack->tail = new_node;
     }
     else
     {
-        node_t new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = MALLOC(sizeof(node_t));
         new_node->data = data;
         new_node->prev = stack->tail;
         stack->tail = new_node;
@@ -88,18 +88,18 @@ void push_stack(stack_t stack, void* data)
     stack->size++;
 }
 
-void pop_stack(stack_t stack)
+void pop_stack(stack_t* stack)
 {
     if (is_empty_stack(stack))
         return;
 
-    node_t del_node = stack->tail;
+    node_t* del_node = stack->tail;
     stack->tail = stack->tail->prev;
     stack->size--;
     FREE(del_node);
 }
 
-void* stack_top(stack_t stack)
+void* stack_top(const stack_t* stack)
 {
     if (stack->tail)
         return stack->tail->data;
@@ -107,17 +107,17 @@ void* stack_top(stack_t stack)
         return NULL;
 }
 
-size_t get_size_stack(stack_t stack)
+size_t get_size_stack(const stack_t* stack)
 {
     return stack->size;
 }
 
-bool is_empty_stack(stack_t stack)
+bool is_empty_stack(const stack_t* stack)
 {
     return stack->size == 0;
 }
 
-static void _make_empty_stack(stack_t stack)
+static void _make_empty_stack(stack_t* stack)
 {
     stack->tail = NULL;
     stack->size = 0;

@@ -16,48 +16,48 @@
 
 #include "winc/utils/collection/list.h"
 
-typedef struct node_t* node_t;
+typedef struct node_t node_t;
 
 struct node_t
 {
-    node_t next;
-    node_t prev;
-    void*  data;
+    node_t* next;
+    node_t* prev;
+    void*   data;
 };
 
 struct list_t
 {
-    node_t head;
-    node_t tail;
-    size_t size;
+    node_t* head;
+    node_t* tail;
+    size_t  size;
 };
 
-list_t init_list()
+list_t* init_list()
 {
-    list_t list = MALLOC(sizeof(list_t));
+    list_t* list = MALLOC(sizeof(list_t));
     _make_empty_list(list);
     return list;
 }
 
-void clear_list(list_t list)
+void clear_list(list_t* list)
 {
-    node_t iterator = list->tail;
+    node_t* iterator = list->tail;
     while (iterator != NULL)
     {
-        node_t del_node = iterator;
+        node_t* del_node = iterator;
         iterator = iterator->prev;
         FREE(del_node);
     }
     _make_empty_list(list);
 }
 
-void destroy_list(list_t list)
+void destroy_list(list_t* list)
 {
     clear_list(list);
     FREE(list);
 }
 
-void move_list(list_t from_list, list_t to_list)
+void move_list(list_t* from_list, list_t* to_list)
 {
     if (is_empty_list(from_list))
         return;
@@ -72,30 +72,7 @@ void move_list(list_t from_list, list_t to_list)
     _make_empty_list(from_list);
 }
 
-size_t get_size_list(list_t list)
-{
-    return list->size;
-}
-
-bool is_empty_list(list_t list)
-{
-    return list->size == 0;
-}
-
-bool is_contain_list(list_t list, const void* data)
-{
-    node_t iterator = list->head;
-    while (iterator)
-    {
-        if (iterator->data == data)
-            return true;
-        iterator = iterator->next;
-    }
-
-    return false;
-}
-
-void push_back_list(list_t list, void* data)
+void push_back_list(list_t* list, void* data)
 {
     if (is_empty_list(list))
     {
@@ -103,7 +80,7 @@ void push_back_list(list_t list, void* data)
     }
     else
     {
-        node_t new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = MALLOC(sizeof(node_t));
         new_node->data = data;
         new_node->prev = list->tail;
         new_node->next = NULL;
@@ -114,19 +91,19 @@ void push_back_list(list_t list, void* data)
     list->size++;
 }
 
-void pop_back_list(list_t list)
+void pop_back_list(list_t* list)
 {
     if (is_empty_list(list))
         return;
 
-    node_t del_node = list->tail;
+    node_t* del_node = list->tail;
     list->tail = list->tail->prev;
     list->tail->next = NULL;
     list->size--;
     FREE(del_node);
 }
 
-void push_front_list(list_t list, void* data)
+void push_front_list(list_t* list, void* data)
 {
     if (is_empty_list(list))
     {
@@ -134,7 +111,7 @@ void push_front_list(list_t list, void* data)
     }
     else
     {
-        node_t new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = MALLOC(sizeof(node_t));
         new_node->data = data;
         new_node->next = list->head;
         new_node->prev = NULL;
@@ -145,19 +122,19 @@ void push_front_list(list_t list, void* data)
     list->size++;
 }
 
-void pop_front_list(list_t list)
+void pop_front_list(list_t* list)
 {
     if (is_empty_list(list))
         return;
 
-    node_t del_node = list->head;
+    node_t* del_node = list->head;
     list->head = list->head->next;
     list->head->prev = NULL;
     list->size--;
     FREE(del_node);
 }
 
-void add_sublist_to_list_to_end(list_t list, list_t sublist)
+void add_sublist_to_list_to_end(list_t* list, list_t* sublist)
 {
     if (is_empty_list(sublist))
         return;
@@ -177,7 +154,7 @@ void add_sublist_to_list_to_end(list_t list, list_t sublist)
     _make_empty_list(sublist);
 }
 
-void add_sublist_to_list_to_beginning(list_t list, list_t sublist)
+void add_sublist_to_list_to_beginning(list_t* list, list_t* sublist)
 {
     if (is_empty_list(sublist))
         return;
@@ -197,15 +174,38 @@ void add_sublist_to_list_to_beginning(list_t list, list_t sublist)
     _make_empty_list(sublist);
 }
 
-void list_insert_after(list_t list, list_iterator_t it, void* data)
+size_t get_size_list(const list_t* list)
+{
+    return list->size;
+}
+
+bool is_empty_list(const list_t* list)
+{
+    return list->size == 0;
+}
+
+bool is_contain_list(const list_t* list, const void* data)
+{
+    node_t* iterator = list->head;
+    while (iterator)
+    {
+        if (iterator->data == data)
+            return true;
+        iterator = iterator->next;
+    }
+
+    return false;
+}
+
+void list_insert_after(list_t* list, list_iterator_t it, void* data)
 {
     if (!it)
         return;
 
     if (it->next)
     {
-        node_t prev_node = it;
-        node_t next_node = it->next;
+        node_t* prev_node = it;
+        node_t* next_node = it->next;
         _insert_between_nodes(prev_node, next_node, data);
     }
     else
@@ -216,15 +216,15 @@ void list_insert_after(list_t list, list_iterator_t it, void* data)
     list->size++;
 }
 
-void list_insert_before(list_t list, list_iterator_t it, void* data)
+void list_insert_before(list_t* list, list_iterator_t it, void* data)
 {
     if (!it)
         return;
 
     if (it->prev)
     {
-        node_t prev_node = it->prev;
-        node_t next_node = it;
+        node_t* prev_node = it->prev;
+        node_t* next_node = it;
         _insert_between_nodes(prev_node, next_node, data);
     }
     else
@@ -235,10 +235,10 @@ void list_insert_before(list_t list, list_iterator_t it, void* data)
     list->size++;
 }
 
-void list_erase(list_t list, list_iterator_t it)
+void list_erase(list_t* list, list_iterator_t it)
 {
-    node_t prev_node = it->prev;
-    node_t next_node = it->next;
+    node_t* prev_node = it->prev;
+    node_t* next_node = it->next;
 
     if (prev_node)
         prev_node->next = next_node;
@@ -249,22 +249,22 @@ void list_erase(list_t list, list_iterator_t it)
     FREE(it);
 }
 
-list_iterator_t list_begin(list_t list)
+list_iterator_t list_begin(list_t* list)
 {
     return list->head;
 }
 
-list_iterator_t list_end(list_t list)
+list_iterator_t list_end(list_t* list)
 {
     return list->tail;
 }
 
-bool list_has_next(list_iterator_t it)
+bool list_has_next(const list_iterator_t it)
 {
     return (it) ? (true) : (false);
 }
 
-bool list_has_prev(list_iterator_t it)
+bool list_has_prev(const list_iterator_t it)
 {
     return (it) ? (true) : (false);
 }
@@ -285,7 +285,7 @@ list_iterator_t list_prev(list_iterator_t it)
     return it->prev;
 }
 
-void* list_get(list_iterator_t it)
+void* list_get(const list_iterator_t it)
 {
     if (!it)
         return NULL;
@@ -293,18 +293,18 @@ void* list_get(list_iterator_t it)
     return it->data;
 }
 
-void* list_at(list_t list, int index)
+void* list_at(const list_t* list, int index)
 {
     if ((index >= 0) && (index < list->size))
     {
-        node_t iterator = list->head;
+        node_t* iterator = list->head;
         for (register int i = 0; i != index; i++)
             iterator = iterator->next;
         return iterator->data;
     }
     else if ((index < 0) && (abs(index) <= list->size))
     {
-        node_t iterator = list->tail;
+        node_t* iterator = list->tail;
         for (register int i = -1; i != index; i--)
             iterator = iterator->prev;
         return iterator->data;
@@ -313,17 +313,17 @@ void* list_at(list_t list, int index)
     return NULL;
 }
 
-void* list_back(list_t list)
+void* list_back(const list_t* list)
 {
     return list->tail->data;
 }
 
-void* list_front(list_t list)
+void* list_front(const list_t* list)
 {
     return list->head->data;
 }
 
-static void _make_empty_list(list_t list)
+static void _make_empty_list(list_t* list)
 {
     list->head = NULL;
     list->tail = NULL;
@@ -332,7 +332,7 @@ static void _make_empty_list(list_t list)
 
 static void _insert_between_nodes(list_iterator_t lnode, list_iterator_t rnode, void* data)
 {
-    node_t new_node = MALLOC(sizeof(node_t));
+    node_t* new_node = MALLOC(sizeof(node_t));
     new_node->data = data;
     new_node->next = rnode;
     new_node->prev = lnode;
@@ -340,9 +340,9 @@ static void _insert_between_nodes(list_iterator_t lnode, list_iterator_t rnode, 
     rnode->prev = new_node;
 }
 
-static void _insert_first_node(list_t list, void* data)
+static void _insert_first_node(list_t* list, void* data)
 {
-    node_t new_node = MALLOC(sizeof(node_t));
+    node_t* new_node = MALLOC(sizeof(node_t));
     new_node->data = data;
     new_node->next = NULL;
     new_node->prev = NULL;

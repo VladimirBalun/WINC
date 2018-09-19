@@ -21,14 +21,11 @@
 extern "C" {
 #endif // __cplusplus
 
-typedef int bool;
+#include <stdlib.h>
+
+typedef int8_t bool;
 #define true  1
 #define false 0
-
-// Error exit statuses for WINC
-#define SYSTEM_ERROR         -1
-#define ASSERT_FAILED        -2
-#define MEMORY_NOT_ALLOCATED -3
 
 #define FOREVER() for(;;)
 #define LAMBDA(sign_) ({ sign_ _;})

@@ -24,21 +24,21 @@ extern "C" {
 #include "../allocation.h"
 #include "../typedef.h"
 
-typedef struct stack_t* stack_t;
+typedef struct stack_t stack_t;
 
-stack_t init_stack();
-void clear_stack(stack_t stack);
-void destroy_stack(stack_t stack);
-void move_stack(stack_t from_stack, stack_t to_stack);
+stack_t* init_stack();
+void clear_stack(stack_t* stack);
+void destroy_stack(stack_t* stack);
+void move_stack(stack_t* from_stack, stack_t* to_stack);
 
-void push_stack(stack_t stack, void* data);
-void pop_stack(stack_t stack);
+void push_stack(stack_t* stack, void* data);
+void pop_stack(stack_t* stack);
 
-void* stack_top(stack_t stack);
-size_t get_size_stack(stack_t stack);
-bool is_empty_stack(stack_t stack);
+void* stack_top(const stack_t* stack);
+size_t get_size_stack(const stack_t* stack);
+bool is_empty_stack(const stack_t* stack);
 
-static void _make_empty_stack(stack_t stack);
+static void _make_empty_stack(stack_t* stack);
 
 #ifdef __cplusplus
 }

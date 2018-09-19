@@ -14,11 +14,29 @@
  * limitations under the License.
  */
 
-#ifndef WINC_FILE_SYSTEM_H
-#define WINC_FILE_SYSTEM_H
+#include <stdio.h>
 
-#include "file_system/directory.h"
-#include "file_system/file.h"
-#include "file_system/path.h"
+#include "winc/utils/collection/queue.h"
 
-#endif // WINC_FILESYSTEM_H
+int main(int argc, char** argv)
+{
+    char* data1 = "Text1";
+    char* data2 = "Text2";
+    char* data3 = "Text3";
+
+    queue_t* queue = init_queue();
+    push_queue(queue, data3);
+    push_queue(queue, data2);
+    push_queue(queue, data1);
+
+    printf("Size queue: %ld\n", get_size_queue(queue));
+    while (!is_empty_queue(queue))
+    {
+        printf("Front element: %s\n", (char*) queue_front(queue));
+        pop_queue(queue);
+    }
+
+    destroy_queue(queue);
+
+    return EXIT_SUCCESS;
+}

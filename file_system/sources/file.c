@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "winc/file_sytem/file.h"
+#include "winc/file_system/file.h"
 
 #if defined(_WIN32) || defined(WIN32)
 	#pragma warning(disable:4996)
@@ -110,10 +110,16 @@ void append_to_file(const char* file_name, const char* data)
 		return link(file_name, link_name) == 0;
 	}
 
+    bool is_exist_file(const char* file_name)
+    {
+        struct stat st;
+        return stat(file_name, &st) == 0;
+    }
+
 	long int get_file_size(const char* file_name)
 	{
 		struct stat st;
-		if (stat(file_name, &st) == 0)
+		if (stat(file_name, &st))
 		    return st.st_size;
 		else
 		    return -1;
@@ -159,6 +165,11 @@ void append_to_file(const char* file_name, const char* data)
 	{
 		return CreateHardLink(link_name, file_name, NULL) != 0;
 	}
+
+	bool is_exist_file(const char* file_name)
+    {
+        // Soon...
+    }
 
 	long int get_file_size(const char* file_name)
 	{

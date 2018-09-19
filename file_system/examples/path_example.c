@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-#ifndef WINC_FILE_SYSTEM_H
-#define WINC_FILE_SYSTEM_H
+#include <stdio.h>
 
-#include "file_system/directory.h"
-#include "file_system/file.h"
-#include "file_system/path.h"
+#include "winc/file_system/path.h"
 
-#endif // WINC_FILESYSTEM_H
+int main()
+{
+    char* user_dir = get_user_directory();
+    printf("User directory: %s\n", user_dir);
+    free(user_dir);
+
+    char* curr_dir = get_current_directory();
+    printf("Current working directory: %s\n", curr_dir);
+    free(curr_dir);
+
+    return EXIT_SUCCESS;
+}
