@@ -16,6 +16,11 @@
 
 #include "winc/file_system/directory.h"
 
+bool rename_dir(const char* old_dir_name, const char* new_dir_name)
+{
+    return rename(old_dir_name, new_dir_name) == 0;
+}
+
 #ifdef __unix__
 
     #include <sys/types.h>
@@ -44,11 +49,6 @@
         return stat(dir_name, &st) == 0;
     }
 
-    bool rename_dir(const char* old_dir_name, const char* new_dir_name)
-    {
-        // Soon...
-    }
-
 #elif defined(_WIN32) || defined(WIN32)
 
     #include <Windows.h>
@@ -64,11 +64,6 @@
     }
 
     bool is_exist_dir(const char* dir_name)
-    {
-        // Soon...
-    }
-
-    bool rename_dir(const char* old_dir_name, const char* new_dir_name)
     {
         // Soon...
     }

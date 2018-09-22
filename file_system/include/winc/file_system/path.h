@@ -22,6 +22,7 @@ extern "C" {
 #endif // __cplusplus
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "winc/utils/allocation.h"
 #include "winc/utils/typedef.h"
@@ -31,6 +32,9 @@ bool is_file(const char* path);
 
 char* get_user_directory();
 char* get_current_directory();
+char* get_file_name_from_path(char *path);
+
+void path_iterate(const char* path, void(*func)(const char*));
 
 #ifdef __cplusplus
 }

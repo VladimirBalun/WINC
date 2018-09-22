@@ -30,20 +30,19 @@ int main()
         append_to_file(source_file, data);
         if (!copy_file(source_file, copied_file))
         {
-            printf("File wasn't copied.");
+            fprintf(stderr, "File \"%s\" wasn't copied.\n", source_file);
             return EXIT_FAILURE;
         }
     }
     else
     {
-        printf("File wasn't created.");
+        fprintf(stderr, "File \"%s\" wasn't created.\n", source_file);
         return EXIT_FAILURE;
     }
 
     char* data_from_copied_file = read_file(copied_file);
     printf("Copied data: %s\n", data_from_copied_file);
-    if (data_from_copied_file)
-        free(data_from_copied_file);
+    free(data_from_copied_file);
 
     rename_file(copied_file, renamed_file);
     const char* new_data = "New hello world!";
@@ -51,9 +50,9 @@ int main()
     printf("New size of renamed file: %lu\n", get_file_size(renamed_file));
 
     if (!remove_file(source_file))
-        printf("File wasn't deleted.");
+        fprintf(stderr, "File \"%s\" wasn't deleted.\n", source_file);
     if(!remove_file(renamed_file))
-        printf("File wasn't deleted.");
+        fprintf(stderr, "File \"%s\" wasn't deleted.\n", renamed_file);
 
     return EXIT_SUCCESS;
 }

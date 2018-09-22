@@ -19,25 +19,24 @@
 #ifdef __unix__
 
     #include <unistd.h>
+    #include <dirent.h>
+    #include <libgen.h>
     #include <sys/stat.h>
     #include <sys/types.h>
     #include <pwd.h>
-
-    #include <stdlib.h>
-    #include <string.h>
 
     bool is_directory(const char* path)
     {
         struct stat buff;
         stat(path, &buff);
-        return S_ISREG(buff.st_mode);
+        return S_ISDIR(buff.st_mode);
     }
 
     bool is_file(const char* path)
     {
         struct stat buff;
         stat(path, &buff);
-        return S_ISDIR(buff.st_mode);
+        return S_ISREG(buff.st_mode);
     }
 
     char* get_user_directory()
@@ -63,6 +62,26 @@
         return NULL;
     }
 
+    char* get_file_name_from_path(char *path)
+    {
+        return basename(path);
+    }
+
+    void path_iterate(const char* path, void(*func)(const char*))
+    {
+        DIR *dir;
+        struct dirent *ent;
+        if ((dir = opendir(path)) != NULL)
+        {
+            while ((ent = readdir(dir)) != NULL)
+            {
+                if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0)
+                    func(ent->d_name);
+            }
+            closedir(dir);
+        }
+    }
+
 #elif defined(_WIN32) || defined(WIN32)
 
     #include <Windows.h>
@@ -83,6 +102,16 @@
     }
 
     const char* get_current_directory()
+    {
+        // Soon...
+    }
+
+    char* get_file_name_from_path(const char* path)
+    {
+        // Soon...
+    }
+
+    void path_iterate(const char* path, void(*func)(const char*))
     {
         // Soon...
     }

@@ -32,7 +32,7 @@ char* read_file(const char* file_name)
         return NULL;
 
     long int size = get_file_size(file_name);
-    char* data = MALLOC(sizeof(char) * (size_t)(size + 1));
+    char* data = MALLOC(sizeof(char) * (size + 1));
     fread(data, 1, (size_t)size, file);
     data[size] = '\0';
     fclose(file);
@@ -70,15 +70,15 @@ void append_to_file(const char* file_name, const char* data)
 
 	bool create_file(const char* full_file_name)
 	{
-		return creat(full_file_name, S_IRUSR | S_IWUSR) != -1;
+		return creat(full_file_name, S_IRUSR | S_IWUSR) == 0;
 	}
 
 	bool copy_file(const char* from_file_name, const char* to_file_name)
 	{
 		int from_file, to_file;
-		if ((from_file = open(from_file_name, O_RDONLY)) == -1)
+		if ((from_file = open(from_file_name, O_RDONLY)) != 0)
 		    return false;
-		if ((to_file = creat(to_file_name, 0660)) == -1)
+		if ((to_file = creat(to_file_name, 0660)) != 0)
 		{
 		    close(from_file);
 		    return false;
@@ -119,7 +119,7 @@ void append_to_file(const char* file_name, const char* data)
 	long int get_file_size(const char* file_name)
 	{
 		struct stat st;
-		if (stat(file_name, &st))
+		if (stat(file_name, &st) == 0)
 		    return st.st_size;
 		else
 		    return -1;

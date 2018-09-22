@@ -16,26 +16,35 @@
 
 #include <stdio.h>
 
+#include "winc/file_system/directory.h"
 #include "winc/file_system/path.h"
-
-void iteration_callback(const char* elem)
-{
-    printf("%s\n", elem);
-}
 
 int main()
 {
     char* user_dir = get_user_directory();
-    printf("User directory: %s\n", user_dir);
+    if (!is_exist_dir(user_dir))
+    {
+        fprintf(stderr, "User directory is absent.");
+        free(user_dir);
+        return SYSTEM_ERROR;
+    }
 
-    char* curr_dir = get_current_directory();
-    printf("Current working directory: %s\n", curr_dir);
+    const char* new_catalog = "/tmp_directory_for_example";
+    char test_dir[strlen(user_dir) + strlen(new_catalog) + 1];
+    strcpy(test_dir, user_dir);
+    strcat(test_dir, new_catalog);
 
-    printf("Iteration in the user directory:\n");
-    path_iterate(user_dir, iteration_callback);
+    if (create_dir(test_dir))
+        printf("Directory: \"%s\" was created.\n", test_dir);
+    else
+        fprintf(stderr, "Directory: \"%s\" wasn't created.\n", test_dir);
+
+    if (remove_dir(test_dir))
+        printf("Directory: \"%s\" was deleted.\n", test_dir);
+    else
+        fprintf(stderr, "Directory: \"%s\" wasn't deleted.\n", test_dir);
 
     free(user_dir);
-    free(curr_dir);
 
     return EXIT_SUCCESS;
 }

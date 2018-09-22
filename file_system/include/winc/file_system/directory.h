@@ -21,6 +21,8 @@
 extern "C" {
 #endif // __cplusplus
 
+#include <stdio.h>
+
 #include "path.h"
 #include "winc/utils/typedef.h"
 

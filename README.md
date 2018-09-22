@@ -1,7 +1,7 @@
 <p align="center">
     <img
       alt="WINC"
-      src="https://downloader.disk.yandex.ru/preview/53f91952a196156792dce7a6813a208da3c579194dca7312e29eb0e7182c19af/5b9c2e78/QIu_UHwQI7Su_15ipwApzqJ1eYAnQJo8Hb4pgrYptYSM2WFuiVeUN_LkQVZ9Sy4EH8NDhSF1E2xCxrTUcxChjg%3D%3D?uid=0&filename=WINC.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&tknv=v2&size=1680x938"
+      src="https://downloader.disk.yandex.ru/preview/0383daf829045ac6e18f018fb959e47ce446412b4730ff30155678342baddcb7/5ba6b58e/QIu_UHwQI7Su_15ipwApzqJ1eYAnQJo8Hb4pgrYptYSM2WFuiVeUN_LkQVZ9Sy4EH8NDhSF1E2xCxrTUcxChjg%3D%3D?uid=0&filename=WINC.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&tknv=v2&size=2048x2048"
       width="250"
      />
 </p>
@@ -19,21 +19,44 @@ libraries for working with:
 
 ## Short examples
    
-One of the collection from the *Utils* library:    
+One of the example collection from the *Utils* library:    
     
 ~~~C
-list_t list = init_list();
-push_back_list(list, "world");
-push_back_list(list, "!!!");
-push_front_list(list, "Hello ");
-    
-FOR_EACH_LIST(iterator, list)
+int main(int argc, char** argv)
 {
-    printf("%s", (char*) list_get(iterator));
+    list_t* list = init_list();
+    push_back_list(list, "world");
+    push_back_list(list, "!!!");
+    push_front_list(list, "Hello ");
+        
+    FOR_EACH_LIST(iterator, list)
+    {
+        printf("%s", (char*) list_get(iterator));
+    }
+          
+    destroy_list(list);
+    return EXIT_SUCCESS;
 }
-      
-destroy_list(list);
 ~~~
+   
+ Example of the file system iterator from the *FileSystem* library:     
+    
+~~~C
+void iteration_callback(const char* element)
+{
+    printf("%s\n", element);
+}
+
+int main(int argc, char** argv)
+{
+    char* user_dir = get_user_directory();
+    printf("Iteration in the user directory:\n");
+    path_iterate(user_dir, iteration_callback);   
+          
+    free(user_dir);
+    return EXIT_SUCCESS;
+}
+~~~    
     
 ## How to build WINC
 
