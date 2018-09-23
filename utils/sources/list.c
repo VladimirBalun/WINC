@@ -34,7 +34,7 @@ struct list_t
 
 list_t* init_list()
 {
-    list_t* list = MALLOC(sizeof(list_t));
+    list_t* list = winc_malloc(sizeof(list_t));
     _make_empty_list(list);
     return list;
 }
@@ -46,7 +46,7 @@ void clear_list(list_t* list)
     {
         node_t* del_node = iterator;
         iterator = iterator->prev;
-        FREE(del_node);
+        winc_free(del_node);
     }
     _make_empty_list(list);
 }
@@ -54,7 +54,7 @@ void clear_list(list_t* list)
 void destroy_list(list_t* list)
 {
     clear_list(list);
-    FREE(list);
+    winc_free(list);
 }
 
 void move_list(list_t* from_list, list_t* to_list)
@@ -80,7 +80,7 @@ void push_back_list(list_t* list, void* data)
     }
     else
     {
-        node_t* new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = winc_malloc(sizeof(node_t));
         new_node->data = data;
         new_node->prev = list->tail;
         new_node->next = NULL;
@@ -100,7 +100,7 @@ void pop_back_list(list_t* list)
     list->tail = list->tail->prev;
     list->tail->next = NULL;
     list->size--;
-    FREE(del_node);
+    winc_free(del_node);
 }
 
 void push_front_list(list_t* list, void* data)
@@ -111,7 +111,7 @@ void push_front_list(list_t* list, void* data)
     }
     else
     {
-        node_t* new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = winc_malloc(sizeof(node_t));
         new_node->data = data;
         new_node->next = list->head;
         new_node->prev = NULL;
@@ -131,7 +131,7 @@ void pop_front_list(list_t* list)
     list->head = list->head->next;
     list->head->prev = NULL;
     list->size--;
-    FREE(del_node);
+    winc_free(del_node);
 }
 
 void add_sublist_to_list_to_end(list_t* list, list_t* sublist)
@@ -246,7 +246,7 @@ void list_erase(list_t* list, list_iterator_t it)
         next_node->prev = prev_node;
 
     list->size++;
-    FREE(it);
+    winc_free(it);
 }
 
 list_iterator_t list_begin(list_t* list)
@@ -332,7 +332,7 @@ static void _make_empty_list(list_t* list)
 
 static void _insert_between_nodes(list_iterator_t lnode, list_iterator_t rnode, void* data)
 {
-    node_t* new_node = MALLOC(sizeof(node_t));
+    node_t* new_node = winc_malloc(sizeof(node_t));
     new_node->data = data;
     new_node->next = rnode;
     new_node->prev = lnode;
@@ -342,7 +342,7 @@ static void _insert_between_nodes(list_iterator_t lnode, list_iterator_t rnode, 
 
 static void _insert_first_node(list_t* list, void* data)
 {
-    node_t* new_node = MALLOC(sizeof(node_t));
+    node_t* new_node = winc_malloc(sizeof(node_t));
     new_node->data = data;
     new_node->next = NULL;
     new_node->prev = NULL;

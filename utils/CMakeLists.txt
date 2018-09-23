@@ -16,7 +16,10 @@
 
 cmake_minimum_required (VERSION 3.8)
 
+include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+
 set (LIB_NAME ${PROJECT_NAME}Utils)
+set (WINC_UTILS_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 file (GLOB_RECURSE HEADERS include/*.h)
 file (GLOB_RECURSE SOURCES sources/*.c)
@@ -26,4 +29,5 @@ if (ENABLE_EXAMPLES)
 endif ()
 
 add_library (${LIB_NAME} STATIC ${HEADERS} ${SOURCES})
+winc_set_target_properties_for_lib (${LIB_NAME})
 target_include_directories (${LIB_NAME} PRIVATE ./include)

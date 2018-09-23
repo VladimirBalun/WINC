@@ -16,19 +16,12 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+function (winc_set_target_properties_for_lib library)
+    set_target_properties(${library} PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY ${WINC_OUTPUT_LIBS_DIR}
+            LIBRARY_OUTPUT_DIRECTORY ${WINC_OUTPUT_LIBS_DIR})
+endfunction()
 
-set (LIB_NAME ${PROJECT_NAME}FileSystem)
-set (WINC_FILE_SYSTEM_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
-file (GLOB_RECURSE HEADERS include/*.h)
-file (GLOB_RECURSE SOURCES sources/*.c)
-
-if (ENABLE_EXAMPLES)
-    add_subdirectory (examples)
-endif ()
-
-add_library (${LIB_NAME} STATIC ${SOURCES} ${HEADERS})
-winc_set_target_properties_for_lib (${LIB_NAME})
-target_include_directories (${LIB_NAME} PRIVATE ./include)
-target_include_directories (${LIB_NAME} PRIVATE ../utils/include)
+function (winc_set_target_properties_for_example example)
+    set_target_properties(${example} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${WINC_OUTPUT_EXAMPLES_DIR})
+endfunction()

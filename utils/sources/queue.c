@@ -34,7 +34,7 @@ struct queue_t
 
 queue_t* init_queue()
 {
-    queue_t* queue = MALLOC(sizeof(queue_t));
+    queue_t* queue = winc_malloc(sizeof(queue_t));
     _make_empty_queue(queue);
     return queue;
 }
@@ -46,7 +46,7 @@ void clear_queue(queue_t* queue)
     {
         node_t* del_node = iterator;
         iterator = iterator->next;
-        FREE(del_node);
+        winc_free(del_node);
     }
     _make_empty_queue(queue);
 }
@@ -54,7 +54,7 @@ void clear_queue(queue_t* queue)
 void destroy_queue(queue_t* queue)
 {
     clear_queue(queue);
-    FREE(queue);
+    winc_free(queue);
 }
 
 void move_queue(queue_t* from_queue, queue_t* to_queue)
@@ -75,14 +75,14 @@ void push_queue(queue_t* queue, void* data)
 {
     if (is_empty_queue(queue))
     {
-        node_t* new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = winc_malloc(sizeof(node_t));
         new_node->data = data;
         new_node->next = NULL;
         queue->head = new_node;
     }
     else
     {
-        node_t* new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = winc_malloc(sizeof(node_t));
         new_node->data = data;
         new_node->next = queue->head;
         queue->head = new_node;
@@ -98,7 +98,7 @@ void pop_queue(queue_t* queue)
     node_t* del_node = queue->head;
     queue->head = queue->head->next;
     queue->size--;
-    FREE(del_node);
+    winc_free(del_node);
 }
 
 void* queue_front(const queue_t* queue)

@@ -32,7 +32,7 @@ char* read_file(const char* file_name)
         return NULL;
 
     long int size = get_file_size(file_name);
-    char* data = MALLOC(sizeof(char) * (size + 1));
+    char* data = winc_malloc(sizeof(char) * (size + 1));
     fread(data, 1, (size_t)size, file);
     data[size] = '\0';
     fclose(file);

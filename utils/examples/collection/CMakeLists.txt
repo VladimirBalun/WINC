@@ -16,13 +16,18 @@
 
 cmake_minimum_required (VERSION 3.8)
 
+include(${WINC_CMAKE_DIR}/LinkProperties.cmake)
+include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+
 set (EXAMPLES ListExample StackExample QueueExample)
 
-add_executable (ListExample list_example.c ../../sources/list.c)
-add_executable (StackExample stack_example.c ../../sources/stack.c)
-add_executable (QueueExample queue_example.c ../../sources/queue.c)
+add_executable (ListExample list_example.c)
+add_executable (StackExample stack_example.c)
+add_executable (QueueExample queue_example.c)
 
-foreach (_example ${EXAMPLES})
-    target_include_directories (${_example} PRIVATE ../../include)
-    target_include_directories (${_example} PRIVATE ../../../utils/include)
+foreach (example ${EXAMPLES})
+    winc_set_target_properties_for_example (${example})
+    winc_link_target_with_winc_library (${example} WINCUtils)
+    target_include_directories (${example} PRIVATE ../../include)
+    target_include_directories (${example} PRIVATE ../../../utils/include)
 endforeach ()

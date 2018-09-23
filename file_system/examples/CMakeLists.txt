@@ -16,13 +16,19 @@
 
 cmake_minimum_required (VERSION 3.8)
 
+include(${WINC_CMAKE_DIR}/LinkProperties.cmake)
+include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+
 set (EXAMPLES DirectoryExample FileExample PathExample)
 
-add_executable (DirectoryExample directory_example.c ../sources/directory.c ../sources/path.c)
-add_executable (FileExample file_example.c ../sources/file.c)
-add_executable (PathExample path_example.c ../sources/path.c)
+add_executable (DirectoryExample directory_example.c)
+add_executable (FileExample file_example.c)
+add_executable (PathExample path_example.c)
 
-foreach (_example ${EXAMPLES})
-    target_include_directories (${_example} PRIVATE ../include)
-    target_include_directories (${_example} PRIVATE ../../utils/include)
+foreach (example ${EXAMPLES})
+    winc_set_target_properties_for_example (${example})
+    winc_link_target_with_winc_library (${example} WINCUtils)
+    winc_link_target_with_winc_library (${example} WINCFileSystem)
+    target_include_directories (${example} PRIVATE ../include)
+    target_include_directories (${example} PRIVATE ../../utils/include)
 endforeach ()

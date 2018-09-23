@@ -16,13 +16,18 @@
 
 cmake_minimum_required (VERSION 3.8)
 
+include(${WINC_CMAKE_DIR}/LinkProperties.cmake)
+include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+
 set (EXAMPLES MutexExample)
 
-add_executable (MutexExample mutex_example.c ../../sources/mutex.c)
+add_executable (MutexExample mutex_example.c)
 
-foreach (_example ${EXAMPLES})
-    target_include_directories (${_example} PRIVATE ../../include)
+foreach (example ${EXAMPLES})
+    winc_set_target_properties_for_example (${example})
+    winc_link_target_with_winc_library (${example} WINCUtils)
+    target_include_directories (${example} PRIVATE ../../include)
     if (UNIX)
-        target_link_libraries (${_example} -lpthread)
+        target_link_libraries (${example} -lpthread)
     endif ()
 endforeach ()

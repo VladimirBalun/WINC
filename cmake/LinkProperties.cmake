@@ -16,19 +16,10 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
-
-set (LIB_NAME ${PROJECT_NAME}FileSystem)
-set (WINC_FILE_SYSTEM_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
-file (GLOB_RECURSE HEADERS include/*.h)
-file (GLOB_RECURSE SOURCES sources/*.c)
-
-if (ENABLE_EXAMPLES)
-    add_subdirectory (examples)
-endif ()
-
-add_library (${LIB_NAME} STATIC ${SOURCES} ${HEADERS})
-winc_set_target_properties_for_lib (${LIB_NAME})
-target_include_directories (${LIB_NAME} PRIVATE ./include)
-target_include_directories (${LIB_NAME} PRIVATE ../utils/include)
+function (winc_link_target_with_winc_library target library)
+    if (UNIX)
+        target_link_libraries (${target} ${WINC_OUTPUT_LIBS_DIR}/lib${library}.a)
+    elseif(WIN32)
+        target_link_libraries (${target} ${WINC_OUTPUT_LIBS_DIR}/lib${library}.lib)
+    endif ()
+endfunction()

@@ -44,7 +44,7 @@
         struct passwd* pw = getpwuid(getuid());
         if (pw->pw_dir)
         {
-            char* buff = MALLOC(strlen(pw->pw_dir) + 1);
+            char* buff = winc_malloc(strlen(pw->pw_dir) + 1);
             strcpy(buff, pw->pw_dir);
             return buff;
         }
@@ -55,7 +55,7 @@
     char* get_current_directory()
     {
         static __uint8_t MAX_LENGTH_DIRECTORY = 255;
-        char* buff = MALLOC(sizeof(char) * MAX_LENGTH_DIRECTORY);
+        char* buff = winc_malloc(sizeof(char) * MAX_LENGTH_DIRECTORY);
         if (getcwd(buff, MAX_LENGTH_DIRECTORY))
             return buff;
 

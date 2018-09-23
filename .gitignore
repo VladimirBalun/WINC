@@ -1,6 +1,9 @@
 .idea/*
 .vs/*
 
+libs/*
+examples/*
+
 build/*
 cmake-build-debug/*
 cmake-build-release/*

@@ -32,7 +32,7 @@ struct stack_t
 
 stack_t* init_stack()
 {
-    stack_t* stack = MALLOC(sizeof(stack_t));
+    stack_t* stack = winc_malloc(sizeof(stack_t));
     _make_empty_stack(stack);
     return stack;
 }
@@ -44,7 +44,7 @@ void clear_stack(stack_t* stack)
     {
         node_t* del_node = iterator;
         iterator = iterator->prev;
-        FREE(del_node);
+        winc_free(del_node);
     }
     _make_empty_stack(stack);
 }
@@ -52,7 +52,7 @@ void clear_stack(stack_t* stack)
 void destroy_stack(stack_t* stack)
 {
     clear_stack(stack);
-    FREE(stack);
+    winc_free(stack);
 }
 
 void move_stack(stack_t* from_stack, stack_t* to_stack)
@@ -73,14 +73,14 @@ void push_stack(stack_t* stack, void* data)
 {
     if (is_empty_stack(stack))
     {
-        node_t* new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = winc_malloc(sizeof(node_t));
         new_node->data = data;
         new_node->prev = NULL;
         stack->tail = new_node;
     }
     else
     {
-        node_t* new_node = MALLOC(sizeof(node_t));
+        node_t* new_node = winc_malloc(sizeof(node_t));
         new_node->data = data;
         new_node->prev = stack->tail;
         stack->tail = new_node;
@@ -96,7 +96,7 @@ void pop_stack(stack_t* stack)
     node_t* del_node = stack->tail;
     stack->tail = stack->tail->prev;
     stack->size--;
-    FREE(del_node);
+    winc_free(del_node);
 }
 
 void* stack_top(const stack_t* stack)

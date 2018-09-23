@@ -22,42 +22,47 @@ extern "C" {
 #endif // __cplusplus
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "exit_statuses.h"
 #include "debug.h"
 
-#define MALLOC(size) \
-({ \
-    void* ptr = malloc(size); \
-    if (!ptr) \
-    { \
-        ERROR_MSG("WINC: Memory wasn't allocated."); \
-        exit(MEMORY_NOT_ALLOCATED); \
-    } \
-    ptr; \
-})
+static inline void* winc_malloc(size_t size)
+{
+    void* ptr = malloc(size);
+    if (!ptr)
+    {
+        ERROR_MSG("WINC: Memory wasn't allocated.");
+        exit(MEMORY_NOT_ALLOCATED);
+    }
+    return ptr;
+}
 
-#define REALLOC(ptr, size) \
-({ \
-    ptr = realloc(ptr, size); \
-    if (!ptr) \
-    { \
-        ERROR_MSG("WINC: Memory wasn't reallocated."); \
-        exit(MEMORY_NOT_REALLOCATED); \
-    } \
-    ptr; \
-})
+static inline void* winc_realloc(void* ptr, size_t size)
+{
+    ptr = realloc(ptr, size);
+    if (!ptr)
+    {
+        ERROR_MSG("WINC: Memory wasn't reallocated.");
+        exit(MEMORY_NOT_REALLOCATED);
+    }
+    return ptr;
+}
 
-#define MEMCPY(destptr, srcptr, size) \
-    if (!memcpy (destptr, srcptr, size)) \
-    { \
-        ERROR_MSG("WINC: Memory wasn't copied."); \
-        exit(MEMORY_NOT_REALLOCATED); \
-    } \
+static inline void winc_memcpy(void* destptr, void* srcptr, size_t size)
+{
+    if (!memcpy(destptr, srcptr, size))
+    {
+        ERROR_MSG("WINC: Memory wasn't copied.");
+        exit(MEMORY_NOT_REALLOCATED);
+    }
+}
 
-#define FREE(ptr) \
-    free (ptr); \
-    ptr = NULL; \
+static inline void winc_free(void* ptr)
+{
+    free (ptr);
+    ptr = NULL;
+}
 
 #ifdef __cplusplus
 }
