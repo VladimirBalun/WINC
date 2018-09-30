@@ -16,7 +16,7 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+include (${WINC_CMAKE_DIR}/TargetProperties.cmake)
 
 set (LIB_NAME ${PROJECT_NAME}Utils)
 set (WINC_UTILS_DIR ${CMAKE_CURRENT_SOURCE_DIR})

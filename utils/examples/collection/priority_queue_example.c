@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-#ifndef WINC_UTILS_H
-#define WINC_UTILS_H
+#include <winc/utils/collection/priority_queue.h>
 
-#include "utils/collection.h"
-#include "utils/multithreading.h"
-
-#include "utils/algorithm.h"
-#include "utils/allocation.h"
-#include "utils/debug.h"
-#include "utils/typedef.h"
-
-#endif // WINC_UTILS_H
+int main(int argc, char** argv)
+{
+    // Soon...
+    return EXIT_SUCCESS;
+}

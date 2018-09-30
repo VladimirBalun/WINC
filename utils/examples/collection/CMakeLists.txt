@@ -16,12 +16,13 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include(${WINC_CMAKE_DIR}/LinkProperties.cmake)
-include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+include (${WINC_CMAKE_DIR}/LinkProperties.cmake)
+include (${WINC_CMAKE_DIR}/TargetProperties.cmake)
 
-set (EXAMPLES ListExample StackExample QueueExample)
+set (EXAMPLES ListExample PriorityQueueExample StackExample QueueExample)
 
 add_executable (ListExample list_example.c)
+add_executable (PriorityQueueExample priority_queue_example.c)
 add_executable (StackExample stack_example.c)
 add_executable (QueueExample queue_example.c)
 

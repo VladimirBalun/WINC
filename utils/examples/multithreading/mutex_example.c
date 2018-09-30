@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "winc/utils/multithreading/mutex.h"
+#include <winc/utils/multithreading/mutex.h>
 
 int main()
 {

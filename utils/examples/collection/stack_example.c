@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 
-#include "winc/utils/collection/stack.h"
+#include <winc/utils/collection/stack.h>
 
 int main(int argc, char** argv)
 {

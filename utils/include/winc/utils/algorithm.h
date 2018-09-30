@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-#ifndef WINC_UTILS_H
-#define WINC_UTILS_H
+#ifndef WINC_UTILS_ALGORITHM_H
+#define WINC_UTILS_ALGORITHM_H
 
-#include "utils/collection.h"
-#include "utils/multithreading.h"
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 
-#include "utils/algorithm.h"
-#include "utils/allocation.h"
-#include "utils/debug.h"
-#include "utils/typedef.h"
+void swap(void* first, void* second);
 
-#endif // WINC_UTILS_H
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+
+#endif // WINC_UTILS_ALGORITHM_H

@@ -18,6 +18,8 @@
 #define WINC_UTILS_COLLECTION_H
 
 #include "collection/list.h"
+#include "collection/priority_queue.h"
 #include "collection/stack.h"
+#include "collection/queue.h"
 
 #endif // WINC_UTILS_COLLECTION_H

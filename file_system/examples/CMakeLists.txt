@@ -16,8 +16,8 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-include(${WINC_CMAKE_DIR}/LinkProperties.cmake)
-include(${WINC_CMAKE_DIR}/TargetProperties.cmake)
+include (${WINC_CMAKE_DIR}/LinkProperties.cmake)
+include (${WINC_CMAKE_DIR}/TargetProperties.cmake)
 
 set (EXAMPLES DirectoryExample FileExample PathExample)
 

@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 
-#include "winc/utils/collection/queue.h"
+#include <winc/utils/collection/queue.h>
 
 int main(int argc, char** argv)
 {
