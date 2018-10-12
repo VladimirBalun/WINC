@@ -24,8 +24,8 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 
-#include "exit_statuses.h"
 #include "debug.h"
+#include "exit_statuses.h"
 
 static inline void* winc_malloc(size_t size)
 {

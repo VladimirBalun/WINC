@@ -55,17 +55,18 @@ bool rename_dir(const char* old_dir_name, const char* new_dir_name)
 
     bool create_dir(const char* dir_name)
     {
-        // Soon...
+		return CreateDirectoryA(dir_name, NULL) != 0;
     }
 
     bool remove_dir(const char* dir_name)
     {
-        // Soon...
+		return RemoveDirectoryA(dir_name) != 0;
     }
 
     bool is_exist_dir(const char* dir_name)
     {
-        // Soon...
+        DWORD descriptor_type = GetFileAttributesA(dir_name);
+		return descriptor_type & FILE_ATTRIBUTE_DIRECTORY;
     }
 
 #endif // __unix__ and WIN32

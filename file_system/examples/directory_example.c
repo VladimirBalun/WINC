@@ -21,30 +21,49 @@
 
 int main()
 {
+	// Getting the user directory and check if it exists
     char* user_dir = get_user_directory();
     if (!is_exist_dir(user_dir))
     {
-        fprintf(stderr, "User directory is absent.");
-        free(user_dir);
+        fprintf(stderr, "Fatal error! User directory is absent...\n");
         return SYSTEM_ERROR;
     }
 
-    const char* new_catalog = "/tmp_directory_for_example";
-    char test_dir[strlen(user_dir) + strlen(new_catalog) + 1];
-    strcpy(test_dir, user_dir);
-    strcat(test_dir, new_catalog);
+	// Creating test name for new directory
+    const char* new_catalog_name = "/name_directory_for_example";
+	const size_t length_dir_name = strlen(user_dir) + strlen(new_catalog_name) + 1;
+    char* dir_name = malloc(length_dir_name);
+    strcpy_s(dir_name, length_dir_name, user_dir);
+    strcat_s(dir_name, length_dir_name, new_catalog_name);
 
-    if (create_dir(test_dir))
-        printf("Directory: \"%s\" was created.\n", test_dir);
-    else
-        fprintf(stderr, "Directory: \"%s\" wasn't created.\n", test_dir);
+	// Creating a new directory
+	if (create_dir(dir_name))
+		printf("Directory: \"%s\" was created.\n", dir_name);
+	else
+		fprintf(stderr, "Warning! Directory: \"%s\" wasn't created...\n", dir_name);
 
-    if (remove_dir(test_dir))
-        printf("Directory: \"%s\" was deleted.\n", test_dir);
-    else
-        fprintf(stderr, "Directory: \"%s\" wasn't deleted.\n", test_dir);
+	// Creating a new name for renaming directory
+	const char* renamed_catalog_name = "/renamed_directory_for_example";
+	const size_t length_renamed_dir_name = strlen(user_dir) + strlen(renamed_catalog_name) + 1;
+	char* renamed_dir_name = malloc(length_renamed_dir_name);
+	strcpy_s(renamed_dir_name, length_renamed_dir_name, user_dir);
+	strcat_s(renamed_dir_name, length_renamed_dir_name, renamed_catalog_name);
 
-    free(user_dir);
+	// Renamimg created directory
+	if (rename_dir(dir_name, renamed_dir_name)) 
+		printf("Directory: \"%s\" was renamed on \"%s\"...\n", dir_name, renamed_dir_name);
+	else
+		fprintf(stderr, "Warning! Directory: \"%s\" wasn't renamed...\n", dir_name);
+
+	// Deleting renamed directory
+	if (remove_dir(renamed_dir_name))
+		printf("Directory: \"%s\" was deleted...\n", renamed_dir_name);
+	else
+		fprintf(stderr, "Warning! Directory: \"%s\" wasn't deleted...\n", renamed_dir_name);
+
+	// Free up resources
+    free(dir_name);
+	free(renamed_dir_name);
 
     return EXIT_SUCCESS;
 }

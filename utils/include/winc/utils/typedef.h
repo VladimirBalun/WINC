@@ -22,6 +22,7 @@ extern "C" {
 #endif // __cplusplus
 
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef int8_t bool;
 #define true  1

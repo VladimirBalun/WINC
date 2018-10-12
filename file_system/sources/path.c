@@ -54,8 +54,8 @@
 
     char* get_current_directory()
     {
-        static __uint8_t MAX_LENGTH_DIRECTORY = 255;
-        char* buff = winc_malloc(sizeof(char) * MAX_LENGTH_DIRECTORY);
+        static __uint8_t MAX_LENGTH_DIRECTORY = 255; // TODO
+        char* buff = winc_malloc(MAX_LENGTH_DIRECTORY);
         if (getcwd(buff, MAX_LENGTH_DIRECTORY))
             return buff;
 
@@ -96,12 +96,15 @@
         // Soon...
     }
 
-    const char* get_user_directory()
+    char* get_user_directory()
     {
-        // Soon...
+		static uint8_t MAX_LENGTH_DIRECTORY = 255; // TODO
+		char* buff = winc_malloc(MAX_LENGTH_DIRECTORY);
+		snprintf(buff, MAX_PATH, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH")); // TODO
+		return buff;
     }
 
-    const char* get_current_directory()
+    char* get_current_directory()
     {
         // Soon...
     }

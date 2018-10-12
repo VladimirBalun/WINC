@@ -28,7 +28,7 @@ if (ENABLE_EXAMPLES)
     add_subdirectory (examples)
 endif ()
 
-add_library (${LIB_NAME} STATIC ${SOURCES} ${HEADERS})
+add_library (${LIB_NAME} STATIC ${HEADERS} ${SOURCES})
 winc_set_target_properties_for_lib (${LIB_NAME})
 target_include_directories (${LIB_NAME} PRIVATE ./include)
 target_include_directories (${LIB_NAME} PRIVATE ../utils/include)
