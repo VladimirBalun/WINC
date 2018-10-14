@@ -22,7 +22,7 @@
 int main()
 {
 	// Getting the user directory and check if it exists
-    char* user_dir = get_user_directory();
+	char* user_dir = get_user_directory();
     if (!is_exist_dir(user_dir))
     {
         fprintf(stderr, "Fatal error! User directory is absent...\n");
@@ -30,11 +30,10 @@ int main()
     }
 
 	// Creating test name for new directory
-    const char* new_catalog_name = "/name_directory_for_example";
+    const char* new_catalog_name = "\\name_directory_for_example";
 	const size_t length_dir_name = strlen(user_dir) + strlen(new_catalog_name) + 1;
     char* dir_name = malloc(length_dir_name);
-    strcpy_s(dir_name, length_dir_name, user_dir);
-    strcat_s(dir_name, length_dir_name, new_catalog_name);
+	snprintf(dir_name, length_dir_name, "%s%s", user_dir, new_catalog_name);
 
 	// Creating a new directory
 	if (create_dir(dir_name))
@@ -43,11 +42,10 @@ int main()
 		fprintf(stderr, "Warning! Directory: \"%s\" wasn't created...\n", dir_name);
 
 	// Creating a new name for renaming directory
-	const char* renamed_catalog_name = "/renamed_directory_for_example";
+	const char* renamed_catalog_name = "\\renamed_directory_for_example";
 	const size_t length_renamed_dir_name = strlen(user_dir) + strlen(renamed_catalog_name) + 1;
 	char* renamed_dir_name = malloc(length_renamed_dir_name);
-	strcpy_s(renamed_dir_name, length_renamed_dir_name, user_dir);
-	strcat_s(renamed_dir_name, length_renamed_dir_name, renamed_catalog_name);
+	snprintf(renamed_dir_name, length_renamed_dir_name, "%s%s", user_dir, renamed_catalog_name);
 
 	// Renamimg created directory
 	if (rename_dir(dir_name, renamed_dir_name)) 

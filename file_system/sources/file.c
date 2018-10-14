@@ -138,7 +138,7 @@ void append_to_file(const char* file_name, const char* data)
 
 	bool create_file(const char* file_name)
 	{
-		return CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL) !=  INVALID_HANDLE_VALUE;
+		return CreateFile(file_name, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL) != INVALID_HANDLE_VALUE;
 	}
 
 	bool copy_file(const char* from_file_name, const char* to_file_name)

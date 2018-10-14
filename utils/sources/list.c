@@ -27,9 +27,9 @@ struct node_t
 
 struct list_t
 {
-    node_t* head;
-    node_t* tail;
-    size_t  size;
+    node_t*  head;
+    node_t*  tail;
+    long int size;
 };
 
 list_t* init_list()

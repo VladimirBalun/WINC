@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-
  /*!
  \file directory.h
  \authors VladimirBalun
  \brief File for working with directories.
-
-The file provides the following features:
-- Creating new directory;
-- Deleting directory; 
-- Checking if the directory exists or not.
-- Renaming directory.
  */
 #ifndef WINC_FILE_SYSTEM_DIRECTORY_H
 #define WINC_FILE_SYSTEM_DIRECTORY_H
@@ -35,37 +28,40 @@ extern "C" {
 
 #include <stdio.h>
 
-#include "path.h"
+#include "winc/file_system/path.h"
 #include "winc/utils/typedef.h"
 
 /*!
-The function creates a new directory. If the directory 
-already exists, then it will not be created and a function will return false.
+The function creates a new directory(does not work with files). 
+If the directory already exists, then it will not be rereated.
 \param[in] dir_name New directory name for creating.
-\return Whether a directory has been created or not.
+\return If the directory was created, shall return `true`, otherwise `false`.
 */
 bool create_dir(const char* dir_name);
 
 /*!
-The function removes directory. If the directory doesn't 
-exist, then it will not be removed and a function will return false.
+The function removes directory(does not work with files). If 
+the directory doesn't exist, then function does nothing
 \param[in] dir_name Name directory for deleting.
-\return Whether a directory has been deleted or not.
+\return If the directory was deleted, shall return `true`, otherwise `false`.
 */
 bool remove_dir(const char* dir_name);
 
 /*!
-The function checks if the directory exists or not.
+The function checks if the directory 
+exists or not(does not work with files).
 \param[in] dir_name Name directory for checking.
-\return Whether a directory exists or not.
+\return If the directory exists, shall return `true`, otherwise `false`.
 */
 bool is_exist_dir(const char* dir_name);
 
 /*!
-The function renames directory.
+The function renames directory(does not work with files). If 
+the old name of the directory does not exist or new name of 
+the direcory already exists, then function does nothing.
 \param[in] old_dir_name Old name directory for renaming.
 \param[in] new_dir_name New name directory after renaming.
-\return Whether a directory has been renamed or not.
+\return If the directory was renamed, shall return `true`, otherwise `false`.
 */
 bool rename_dir(const char* old_dir_name, const char* new_dir_name);
 

@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+ /*!
+ \file mutex.h
+ \authors VladimirBalun
+ \brief File for working with mutexes.
+ */
 #ifndef WINC_UTILS_MULTITHREADING_MUTEX_H
 #define WINC_UTILS_MULTITHREADING_MUTEX_H
 
@@ -21,8 +26,7 @@
 extern "C" {
 #endif // __cplusplus
 
-#include "../debug.h"
-#include "../typedef.h"
+#include "winc/utils/typedef.h"
 
 #ifdef __unix__
 
@@ -37,10 +41,13 @@ extern "C" {
 #endif // __unix__ and WIN32
 
 bool create_mutex(mutex_t* mutex);
+
 bool destroy_mutex(mutex_t* mutex);
 
-void mutex_lock(mutex_t* mutex);
-void mutex_unlock(mutex_t* mutex);
+bool mutex_lock(mutex_t* mutex);
+
+bool mutex_unlock(mutex_t* mutex);
+
 bool mutex_try_lock(mutex_t* mutex);
 
 #ifdef __cplusplus

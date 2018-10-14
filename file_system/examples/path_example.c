@@ -18,24 +18,27 @@
 
 #include "winc/file_system/path.h"
 
-void iteration_callback(const char* elem)
-{
-    printf("%s\n", elem);
-}
-
 int main()
 {
     char* user_dir = get_user_directory();
     printf("User directory: %s\n", user_dir);
 
-    char* curr_dir = get_current_directory();
-    printf("Current working directory: %s\n", curr_dir);
+    char* current_dir = get_current_directory();
+    printf("Current working directory: %s\n", current_dir);
 
-    printf("Iteration in the user directory:\n");
-    path_iterate(user_dir, iteration_callback);
+	if (is_directory(user_dir))
+		printf("Path: \"%s\" is directory.\n", user_dir);
+	else 
+		fprintf(stderr, "Path: \"%s\" is not directory.\n", user_dir);
 
+	if (!is_file(current_dir))
+		printf("Path: \"%s\" is not file.\n", current_dir);
+	else
+		fprintf(stderr, "Path: \"%s\" is file.\n", current_dir);
+
+	// Free up resources
     free(user_dir);
-    free(curr_dir);
+    free(current_dir);
 
     return EXIT_SUCCESS;
 }

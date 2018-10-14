@@ -23,6 +23,7 @@
     #include <libgen.h>
     #include <sys/stat.h>
     #include <sys/types.h>
+	#include <linux/limits.h>
     #include <pwd.h>
 
     bool is_directory(const char* path)
@@ -48,75 +49,59 @@
             strcpy(buff, pw->pw_dir);
             return buff;
         }
-
-        return NULL;
+		else 
+		{
+			return NULL;
+		}
     }
 
     char* get_current_directory()
     {
-        static __uint8_t MAX_LENGTH_DIRECTORY = 255; // TODO
-        char* buff = winc_malloc(MAX_LENGTH_DIRECTORY);
-        if (getcwd(buff, MAX_LENGTH_DIRECTORY))
+        char* buff = winc_malloc(PATH_MAX);
+        if (getcwd(buff, PATH_MAX))
             return buff;
-
-        return NULL;
-    }
-
-    char* get_file_name_from_path(char *path)
-    {
-        return basename(path);
-    }
-
-    void path_iterate(const char* path, void(*func)(const char*))
-    {
-        DIR *dir;
-        struct dirent *ent;
-        if ((dir = opendir(path)) != NULL)
-        {
-            while ((ent = readdir(dir)) != NULL)
-            {
-                if (strcmp(ent->d_name, ".") != 0 && strcmp(ent->d_name, "..") != 0)
-                    func(ent->d_name);
-            }
-            closedir(dir);
-        }
+		else 
+			return NULL;
     }
 
 #elif defined(_WIN32) || defined(WIN32)
 
     #include <Windows.h>
+	#include <Shlobj.h>
 
-    bool is_directory(const char* name)
+    bool is_directory(const char* path)
     {
-        // Soon...
+		DWORD attribute = GetFileAttributes(path);
+		return attribute == FILE_ATTRIBUTE_DIRECTORY;
     }
 
-    bool is_file(const char* name)
+    bool is_file(const char* path)
     {
-        // Soon...
+		DWORD attribute = GetFileAttributes(path);
+		return ( (attribute != INVALID_FILE_ATTRIBUTES) &&
+			     (attribute != FILE_ATTRIBUTE_DIRECTORY) );
     }
 
     char* get_user_directory()
-    {
-		static uint8_t MAX_LENGTH_DIRECTORY = 255; // TODO
-		char* buff = winc_malloc(MAX_LENGTH_DIRECTORY);
-		snprintf(buff, MAX_PATH, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH")); // TODO
-		return buff;
+    {	
+		WCHAR unicode_buff[MAX_PATH];
+		if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_PROFILE, NULL, 0, unicode_buff)))
+		{
+			CHAR* ansi_buff = winc_malloc(MAX_PATH);
+			wcstombs(ansi_buff, unicode_buff, MAX_PATH);
+			return ansi_buff;
+		} 
+		else
+		{
+			return NULL;
+		}
     }
 
     char* get_current_directory()
     {
-        // Soon...
-    }
-
-    char* get_file_name_from_path(const char* path)
-    {
-        // Soon...
-    }
-
-    void path_iterate(const char* path, void(*func)(const char*))
-    {
-        // Soon...
-    }
+		CHAR* buff = winc_malloc(MAX_PATH);
+		GetCurrentDirectory(MAX_PATH, buff);
+		return buff;
+	}
 
 #endif // __unix__ and WIN32

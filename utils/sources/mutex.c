@@ -22,21 +22,18 @@
 	{
 		if (pthread_mutex_init(mutex, NULL) == 0)
             return true;
-
-        PRINT_LAST_SYSTEM_ERROR();
-        return false;
+		else
+			return false;
 	}
 
-	void mutex_lock(mutex_t* mutex)
+	bool mutex_lock(mutex_t* mutex)
 	{
-        if (pthread_mutex_lock(mutex) != 0)
-            PRINT_LAST_SYSTEM_ERROR();
+		return pthread_mutex_lock(mutex) == 0;
 	}
 
-	void mutex_unlock(mutex_t* mutex)
+	bool mutex_unlock(mutex_t* mutex)
 	{
-	    if (pthread_mutex_unlock(mutex) != 0)
-		    PRINT_LAST_SYSTEM_ERROR();
+		return pthread_mutex_unlock(mutex) == 0;
 	}
 
 	bool mutex_try_lock(mutex_t* mutex)
@@ -48,9 +45,8 @@
 	{
 		if (pthread_mutex_destroy(mutex) == 0)
             return true;
-
-        PRINT_LAST_SYSTEM_ERROR();
-		return false;
+		else 
+			return false;
 	}
 
 #elif defined(_WIN32) || defined(WIN32)
@@ -59,35 +55,47 @@
 	{
 		if (CreateMutex(0, FALSE, 0))
 			return true;
-
-		PRINT_LAST_SYSTEM_ERROR();
-		return false;
+		else
+			return false;
 	}
 
-	void mutex_lock(mutex_t* mutex)
+	bool mutex_lock(mutex_t* mutex)
 	{
-		if (WaitForSingleObject(mutex, INFINITE) == WAIT_FAILED)
-			PRINT_LAST_SYSTEM_ERROR();
+		if (mutex)
+			return WaitForSingleObject(mutex, INFINITE) != WAIT_OBJECT_0;
+		else
+			return false;
 	}
 
-	void mutex_unlock(mutex_t* mutex)
+	bool mutex_unlock(mutex_t* mutex)
 	{
-		if (!ReleaseMutex(mutex))
-			PRINT_LAST_SYSTEM_ERROR();
+		if (mutex)
+			return ReleaseMutex(mutex);
+		else
+			return false;
 	}
 
 	bool mutex_try_lock(mutex_t* mutex)
 	{
-		return WaitForSingleObject(mutex, 0) != WAIT_TIMEOUT;
+		if (mutex)
+			return WaitForSingleObject(mutex, 0) != WAIT_TIMEOUT;
+		else
+			return false;
 	}
 
 	bool destroy_mutex(mutex_t* mutex)
 	{
-		if (CloseHandle(mutex))
-			return true;
-
-		PRINT_LAST_SYSTEM_ERROR();
-		return false;
+		if (mutex) 
+		{
+			if (CloseHandle(mutex))
+				return true;
+			else
+				return false;
+		}
+		else 
+		{
+			return false;
+		}
 	}
 
 #endif // _unix__ and WIN32

@@ -18,7 +18,10 @@
 
 bool rename_dir(const char* old_dir_name, const char* new_dir_name)
 {
-    return rename(old_dir_name, new_dir_name) == 0;
+	if (is_directory(old_dir_name)) 
+		return rename(old_dir_name, new_dir_name) == 0;
+	else
+		return false;
 }
 
 #ifdef __unix__
@@ -65,8 +68,9 @@ bool rename_dir(const char* old_dir_name, const char* new_dir_name)
 
     bool is_exist_dir(const char* dir_name)
     {
-        DWORD descriptor_type = GetFileAttributesA(dir_name);
-		return descriptor_type & FILE_ATTRIBUTE_DIRECTORY;
+        DWORD attribute = GetFileAttributesA(dir_name);
+		return ( (attribute != INVALID_FILE_ATTRIBUTES) &&
+			     (attribute == FILE_ATTRIBUTE_DIRECTORY) );
     }
 
 #endif // __unix__ and WIN32
